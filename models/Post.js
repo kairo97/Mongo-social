@@ -1,10 +1,20 @@
 const {Schema, model} = require('mongoose');
-
+const Comment = require('./Comment')
 const postSchema = new Schema(
     {
-        text: String,
-        username: String,
-        comments: [{ type: Schema.Type.ObjectId, ref: 'comment'}],
+       published: {
+            type: Boolean,
+            default: false,
+       },
+       content: {
+        type: String,
+       },
+        comments: [
+            {
+                 type: Schema.Types.ObjectId,
+                  ref: 'Comment'
+                }
+            ],
     },
     {
         toJSON: {

@@ -20,7 +20,7 @@ module.exports = {
     },
 
     createUser(req, res) {
-        User.ceate(req.body)
+        User.create(req.body)
         .then((course) => res.json(course))
         .catch((err) => {
             console.log(err);
@@ -32,7 +32,7 @@ module.exports = {
         User.findOneAndDelete({_id: req.params.userId })
             .then((user) => 
                 !user
-                    ? res.status(404).json({msg: 'No user with that ID'})
+                    ? res.status(404).json({message: 'No user with that ID'})
                     : Post.deleteMany({_id: { $in: user.posts}})
             )
             .then(() => res.json({ message: 'User and associated posts deleted'}))
