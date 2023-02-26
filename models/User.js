@@ -21,12 +21,12 @@ const userSchema = new Schema(
             max_length:20,
         
     },
-    posts: [
-        {
-        type:Schema.Types.ObjectId,
-        ref: "Post"
-        }
-    ]
+    // posts: [
+    //     {
+    //     type:Schema.Types.ObjectId,
+    //     ref: "Post"
+    //     }
+    // ]
     },
     {
         toJSON: {

@@ -277,4 +277,8 @@ const getRandomUsername = () =>
 const getRandomPost = () => 
     `${getRadomArrItem(posts)}`;
 
-module.exports = {getRandomEmail, getRandomUsername, getRandomPost};
+const getRandomPassword = () => 
+    `${getRadomArrItem(passwords)}`
+    
+
+module.exports = {getRandomEmail, getRandomUsername, getRandomPost, getRandomPassword};
