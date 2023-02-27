@@ -1,14 +1,14 @@
-const { Post, User } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = { 
 
     getPosts(req, res) {
-        Post.find()
+        Thought.find()
         .then((posts) => res.json(posts))
         .catch((err) => res.status(500).json(err));
     },
     getSinglePost(req, res) {
-        Post.findOne({_id: req.parmas.postId })
+        Thought.findOne({_id: req.parmas.postId })
             .then((post) =>
                 !post
                     ? res.status(404).json({message: 'No posts found with that ID'})
@@ -17,7 +17,7 @@ module.exports = {
             .catch((err)=> res.status(500).json(err));
     },
     createPost(req, res) {
-        Post.create(req.body)
+        Thought.create(req.body)
             .then((post) => {
                 return User.findOneAndUpdate(
                     {_id: req.body.userId},
@@ -38,7 +38,7 @@ module.exports = {
             });
     },
     updatePost(req, res) {
-        Post.findOneAndUpdate(
+        Thought.findOneAndUpdate(
             { _id: req.params.postId },
             { $set: req.body },
             { runValidators: true, new: true }
@@ -54,7 +54,7 @@ module.exports = {
             });
     },
     deletePost(req, res) {
-        Post.findOneAndRemove({_id: req.params.postId })
+        Thought.findOneAndRemove({_id: req.params.postId })
             .then((post) => 
                 !post
                     ? res.status(404).json({message: 'No post with this ID'})
@@ -67,7 +67,7 @@ module.exports = {
         .then((user) => 
             !user
                 ? res.status(404).json({
-                    message: 'Post created but no user with this ID'
+                    message: 'Thought created but no user with this ID'
                 })
                 : res.json({ message: 'Post successfully deleted!' })
         )

@@ -5,10 +5,10 @@ const {
     createPost,
     updatePost,
     deletePost,
-} = require('../../controllers/postController');
+} = require('../../controllers/thoughtController');
 
 router.route('/').get(getPosts).post(createPost);
 
-router.route('/:postId').get(getSinglePost).put(updatePost).delete(deletePost);
+router.route('/:thoughtId').get(getSinglePost).put(updatePost).delete(deletePost);
 
 module.exports = router;

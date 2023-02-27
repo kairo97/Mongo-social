@@ -6,28 +6,30 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            max_length: 50,
+            trim: true,
         },
         email: {
             type: String,
             required: true,
             unique:true,
-            max_length: 50,
+            match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
 
         },
         password: {
             type: String,
             required:true,
             max_length:20,
-        
-    },
-    // posts: [
-    //     {
-    //     type:Schema.Types.ObjectId,
-    //     ref: "Post"
-    //     }
-    // ]
-    },
+            
+        },
+        thoughts: {
+            type:Schema.Types.ObjectId,
+            ref: "thoughts"
+        },
+        friends: {
+            type:Schema.Types.ObjectId,
+            ref: "friends"
+        }
+},
     {
         toJSON: {
             virtuals: true,
