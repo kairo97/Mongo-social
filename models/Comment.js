@@ -6,12 +6,12 @@ const commentSchema = new Schema(
             type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId(),
         },
-        commentName: {
+        commentcontent: {
             type: String,
             required: true,
             maxlength: 50,
             minlength: 4,
-            default: "Unnamed comment",
+            
         }
     },
 )
