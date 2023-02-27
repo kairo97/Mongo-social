@@ -1,5 +1,3 @@
-// routes/api/thought-routes.js
-
 const router = require('express').Router();
 const {
   getPosts,
@@ -10,7 +8,7 @@ const {
   addReaction,
   removeReaction,
   updateReaction
-} = require('../../controllers/thought-controller');
+} = require('../../controllers/thoughtController');
 
 router
   .route('/')
