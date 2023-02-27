@@ -1,5 +1,5 @@
 const {ObjectId} = require('mongoose').Types;
-const { User, Post } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
     getUsers(req,res) {
@@ -53,4 +53,26 @@ module.exports = {
             .then(() => res.json({ message: 'User and associated posts deleted'}))
             .catch((err) => res.status(500).json(err));
     },
+
+addFriend(req, res) {
+    const { userId, friendId } = req.params;
+
+    if (!ObjectId.isValid(userId) || !ObjectId.isValid(friendId)) {
+        return res.status(400).json({ message: 'Invalid user ID or friend ID' });
+    }
+
+    User.findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { friends: friendId } },
+        { new: true }
+    )
+        .populate('friends')
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({ message: 'No user found with this ID' });
+            }
+            res.json(user);
+        })
+        .catch(err => res.status(500).json(err));
+},
 };
