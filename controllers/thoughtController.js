@@ -72,6 +72,59 @@ module.exports = {
                 : res.json({ message: 'Post successfully deleted!' })
         )
         .catch((err) => res.status(500).json(err));
-    }
+    },
+    addReaction(req, res) {
+        Thought.findByIdAndUpdate(
+          req.params.postId,
+          { $push: { reactions: req.body } },
+          { new: true, runValidators: true }
+        )
+          .then((post) => {
+            if (!post) {
+              return res.status(404).json({ message: 'No post found with this ID' });
+            }
+            return res.json(post);
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
+      },
+    
+      removeReaction(req, res) {
+        Thought.findByIdAndUpdate(
+          req.params.postId,
+          { $pull: { reactions: { reactionId: req.params.reactionId } } },
+          { new: true }
+        )
+          .then((post) => {
+            if (!post) {
+              return res.status(404).json({ message: 'No post found with this ID' });
+            }
+            return res.json(post);
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
+      },
+    
+      updateReaction(req, res) {
+        Thought.findOneAndUpdate(
+          { _id: req.params.postId, 'reactions.reactionId': req.params.reactionId },
+          { $set: { 'reactions.$.reactionBody': req.body.reactionBody } },
+          { new: true, runValidators: true }
+        )
+          .then((post) => {
+            if (!post) {
+              return res.status(404).json({ message: 'No post or reaction found with this ID' });
+            }
+            return res.json(post);
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+          });
+      }
 
 }
