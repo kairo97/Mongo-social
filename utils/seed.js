@@ -1,36 +1,33 @@
 const connection = require('../config/connection');
-const {User, Thought} = require('../models');
-const {getRandomEmail, getRandomUsername, getRandomPost, getRandomPassword} = require('./data')
+const { User, Thought } = require('../models');
+const { getRandomEmail, getRandomUsername, getRandomPost, getRandomPassword } = require('./data')
 
-connection.on('error', (err)=> err);
+connection.on('error', (err) => err);
 
 connection.once('open', async () => {
-    console.log('connected');
+  console.log('connected');
 
-    await User.deleteMany({});
-    await Thought.deleteMany({});
+  await User.deleteMany({});
+  await Thought.deleteMany({});
 
-    const users = [];
-    const posts = [];
-    for (let i = 0; i < 20; i++) {
-        const password = getRandomPassword();
-        const username = getRandomUsername();
-        const email = getRandomEmail();
-        const posts = getRandomPost(20); // create an array of posts for each user
-        users.push({
-            username,
-            email,
-            password,
-            posts // push the array of posts into the user object
-        });
-        posts.push({
-            posts
-        })
-    }
+  const users = [];
+  const thoughts = [];
 
-    await User.collection.insertMany(users);
-    await Thought.collection.insertMany(posts);
-    console.table(users);
-    console.info('seeding complete');
-    process.exit(0);
+  for (let i = 0; i < 20; i++) {
+    const password = getRandomPassword();
+    const username = getRandomUsername();
+    const email = getRandomEmail();
+    const user = await User.create({ username, email, password }); // create user document
+    users.push(user); // add user document to users array
+
+    const post = getRandomPost(); // create a thought document
+    const thought = await Thought.create({ thoughtText: post, username: user.username }); // add user reference to thought document
+    thoughts.push(thought); // add thought document to thoughts array
+  }
+
+  console.table(users);
+  console.table(thoughts);
+  console.info('seeding complete');
+  process.exit(0);
 });
+
